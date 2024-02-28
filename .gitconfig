@@ -1,0 +1,65 @@
+[alias]
+	st = status
+	sti = status --ignored
+	br = branch
+	b = branch -a
+	ci = commit
+#	ci = commit -S
+	co = checkout
+	cp = cherry-pick
+	up = pull --rebase
+	sm = !sh -c 'git submodule $1 --recursive' -
+	wd = diff --color-words -w
+	wdiff = diff --color-words
+	clrec = clone --recursive
+	los = log --show-signature
+	lov = log --pretty='format:%h %G? %aN  %s'
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	desc = describe --always --dirty --abbrev
+	setx = update-index --chmod=+x
+	smr = submodule update --remote
+	smf = submodule foreach 'git co master && git up && git smf'
+	smmf = submodule foreach 'git co main && git up && git smf'
+	smfgc = submodule foreach 'git gc --force && git smfgc'
+	smur = submodule update --recursive
+	size = !git rev-list --objects --all | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' | sed -n 's/^blob //p' | sort --numeric-sort --key=2 | cut -c 1-12,41- | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
+	squash-all = "!f(){ git reset $(git commit-tree HEAD^{tree} -m \"${1:-A new start}\");};f"
+	rmbr = !git --no-pager branch --merged origin/HEAD | xargs git branch -d
+	pr = !sh -c 'git remote prune origin && git remote set-head origin -a && git rmbr'
+[user]
+	name = m-birke
+	email = wesci@web.de
+[push]
+	default = current
+	recurseSubmodules = on-demand
+[core]
+	excludesfile = ~/.gitignore_global
+	autocrlf = false
+	whitespace = trailing-space,space-before-tab,fix
+	fileMode = false
+	attributesfile = ~/.gitattributes
+	pager = less -r -N
+	eol = lf
+[apply]
+	whitespace = fix
+[color]
+	ui = auto
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+	commit = auto
+[gitreview]
+	remote = origin
+[commit]
+#	gpgsign = true
+[pull]
+	rebase = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main

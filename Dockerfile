@@ -5,8 +5,8 @@ ENV TZ=Europe/Paris
 ENV HOME="/root"
 WORKDIR ${HOME}
 
-RUN apt-get upgrade
 RUN apt-get update
+RUN apt-get -y upgrade
 
 RUN apt-get install -y build-essential curl git less openssh-client openssh-server sudo
 
@@ -19,17 +19,18 @@ RUN eval "$(pyenv init -)"
 RUN pyenv install 3.11
 #RUN pyenv install 3.7 3.8 3.9 3.10 3.11 3.12
 
+# install pipx
 RUN apt-get install -y pipx
 ENV PATH "/root/.local/bin:$PATH"
-
 RUN pipx install copier
 RUN pipx install hatch
 RUN pipx install poetry
 RUN pipx install pre-commit
 RUN pipx install ruff
 RUN pipx install tox
+RUN chmod 777 /root/.local
 
-RUN chmod 777 /root/
+#RUN chmod 777 /root/
 
 RUN mkdir /source
 COPY ./.bash_aliases /source/

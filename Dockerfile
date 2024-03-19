@@ -46,4 +46,5 @@ RUN chmod +x /source/entrypoint.sh
 
 RUN mkdir -p /var/run/sshd
 EXPOSE 22
+EXPOSE 8000
 ENTRYPOINT [ "/source/entrypoint.sh"]

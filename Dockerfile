@@ -9,15 +9,20 @@ RUN apt-get update
 RUN apt-get -y upgrade
 
 RUN apt-get install -y build-essential curl git less openssh-client openssh-server sudo
+# install HELM
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+RUN chmod 700 get_helm.sh
+RUN ./get_helm.sh
 
-# pyenv deps
-RUN apt-get install -y libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-RUN curl https://pyenv.run | bash
-ENV PYENV_ROOT="$HOME/.pyenv"
-ENV PATH "$PYENV_ROOT/bin:$PATH"
-RUN eval "$(pyenv init -)"
-RUN pyenv install 3.11
+# install pyenv
+#RUN apt-get install -y libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+#RUN curl https://pyenv.run | bash
+#ENV PYENV_ROOT="$HOME/.pyenv"
+#ENV PATH "$PYENV_ROOT/bin:$PATH"
+#RUN eval "$(pyenv init -)"
+#RUN pyenv install 3.11
 #RUN pyenv install 3.7 3.8 3.9 3.10 3.11 3.12
+#RUN chmod 777 /root/.pyenv
 
 # install pipx
 RUN apt-get install -y pipx

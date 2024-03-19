@@ -23,6 +23,6 @@ __Interactive:__
 
 __Remote Dev:__
 
-`docker run -it -d --rm --name pydevc --hostname py-dev -w /_work -v "$HOME/_work:/_work" -v "$HOME/.token:/.token" -v "$HOME/.ssh:/.ssh" -e TERM=screen-256color -e GID=$GID -e UID=$UID -e USER=$USER pydev bash`
+`docker run -it -d --rm --name pydevc --hostname py-dev -w /_work -p 2222:22 -p 8888:8000 --network=host -v "$HOME/_work:/_work" -v "$HOME/.token:/.token" -v "$HOME/.ssh:/.ssh" -e TERM=screen-256color -e GID=$GID -e UID=$UID -e USER=$USER pydev bash`
 
 `docker logs pydevc`

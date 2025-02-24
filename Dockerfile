@@ -41,20 +41,20 @@ RUN pyenv install 3.11
 # 3.12 comes with 24.04
 
 # install pipx & cli tools
-#RUN apt-get install -y pipx
-#ENV PATH "/root/.local/bin:$PATH"
-#RUN pipx install copier
-#RUN pipx install hatch
+RUN apt-get install -y pipx
+ENV PATH "/root/.local/bin:$PATH"
+RUN pipx install copier
+RUN pipx install hatch
 #RUN pipx install poetry
-#RUN pipx install pre-commit
+RUN pipx install pre-commit
 #RUN pipx install ruff
-#RUN pipx install tox
+RUN pipx install tox
 #RUN pipx install wheel
 
-# modify file system for other users
+# modify file system for guest users
 RUN chmod 777 /root/
 RUN chmod -R 777 /root/.pyenv
-#RUN chmod 775 /root/.local
+RUN chmod 775 /root/.local
 
 RUN mkdir /source
 COPY ./.bash_aliases /source/

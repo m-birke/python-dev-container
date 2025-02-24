@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:24.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Paris
@@ -35,11 +35,12 @@ RUN apt-get install -y libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlit
 RUN curl -fsSL https://pyenv.run | bash
 ENV PYENV_ROOT="$HOME/.pyenv"
 ENV PATH="$PYENV_ROOT/bin:$PATH"
-#RUN /bin/bash -c 'eval "$(pyenv init - bash)"'
 RUN pyenv install 3.9
-#RUN pyenv install 3.7 3.8 3.9 3.10 3.11 3.12
+RUN pyenv install 3.10
+RUN pyenv install 3.11
+# 3.12 comes with 24.04
 
-# install pipx
+# install pipx & cli tools
 #RUN apt-get install -y pipx
 #ENV PATH "/root/.local/bin:$PATH"
 #RUN pipx install copier
@@ -53,7 +54,7 @@ RUN pyenv install 3.9
 # modify file system for other users
 RUN chmod 777 /root/
 RUN chmod -R 777 /root/.pyenv
-#RUN chmod 777 /root/.local
+#RUN chmod 775 /root/.local
 
 RUN mkdir /source
 COPY ./.bash_aliases /source/

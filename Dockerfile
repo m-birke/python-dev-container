@@ -5,37 +5,55 @@ ENV TZ=Europe/Paris
 ENV HOME="/root"
 WORKDIR ${HOME}
 
+# remove default ubuntu user
+RUN userdel -r ubuntu || true
+
 RUN apt-get update
 RUN apt-get -y upgrade
 
-RUN apt-get install -y build-essential curl git less openssh-client openssh-server sudo
-# install HELM
-RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-RUN chmod 700 get_helm.sh
-RUN ./get_helm.sh
+# install basic dev tools
+RUN apt-get install -y build-essential make curl wget git direnv less openssh-client openssh-server sudo
+
+# install cloud dev tools
+
+## install kubernetes control
+#RUN apt-get install -y kubectl
+
+## install HELM
+#RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+#RUN chmod 700 get_helm.sh
+#RUN ./get_helm.sh
+
+## install argoCD
+#RUN wget https://github.com/argoproj/argo-cd/releases/download/v2.10.4/argocd-linux-amd64
+#RUN chmod +x argocd-linux-amd64
+#RUN mv argocd-linux-amd64 /usr/local/bin/argocd
 
 # install pyenv
-#RUN apt-get install -y libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-#RUN curl https://pyenv.run | bash
-#ENV PYENV_ROOT="$HOME/.pyenv"
-#ENV PATH "$PYENV_ROOT/bin:$PATH"
-#RUN eval "$(pyenv init -)"
-#RUN pyenv install 3.11
+RUN apt-get install -y libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev \
+    xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev llvm libncurses5-dev python3-openssl
+RUN curl -fsSL https://pyenv.run | bash
+ENV PYENV_ROOT="$HOME/.pyenv"
+ENV PATH="$PYENV_ROOT/bin:$PATH"
+#RUN /bin/bash -c 'eval "$(pyenv init - bash)"'
+RUN pyenv install 3.9
 #RUN pyenv install 3.7 3.8 3.9 3.10 3.11 3.12
-#RUN chmod 777 /root/.pyenv
 
 # install pipx
-RUN apt-get install -y pipx
-ENV PATH "/root/.local/bin:$PATH"
-RUN pipx install copier
-RUN pipx install hatch
-RUN pipx install poetry
-RUN pipx install pre-commit
-RUN pipx install ruff
-RUN pipx install tox
-RUN chmod 777 /root/.local
+#RUN apt-get install -y pipx
+#ENV PATH "/root/.local/bin:$PATH"
+#RUN pipx install copier
+#RUN pipx install hatch
+#RUN pipx install poetry
+#RUN pipx install pre-commit
+#RUN pipx install ruff
+#RUN pipx install tox
+#RUN pipx install wheel
 
-#RUN chmod 777 /root/
+# modify file system for other users
+RUN chmod 777 /root/
+RUN chmod -R 777 /root/.pyenv
+#RUN chmod 777 /root/.local
 
 RUN mkdir /source
 COPY ./.bash_aliases /source/
@@ -46,5 +64,5 @@ RUN chmod +x /source/entrypoint.sh
 
 RUN mkdir -p /var/run/sshd
 EXPOSE 22
-EXPOSE 8000
+#EXPOSE 8000
 ENTRYPOINT [ "/source/entrypoint.sh"]

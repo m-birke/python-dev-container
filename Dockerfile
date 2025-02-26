@@ -12,7 +12,7 @@ RUN apt-get update
 RUN apt-get -y upgrade
 
 # install basic dev tools
-RUN apt-get install -y build-essential make curl wget git direnv less openssh-client openssh-server sudo
+RUN apt-get install -y build-essential make curl wget git direnv less nano openssh-client openssh-server sudo
 
 # install cloud dev tools
 
@@ -65,5 +65,5 @@ RUN chmod +x /source/entrypoint.sh
 
 RUN mkdir -p /var/run/sshd
 EXPOSE 22
-#EXPOSE 8000
+EXPOSE 8888
 ENTRYPOINT [ "/source/entrypoint.sh"]

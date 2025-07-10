@@ -3,6 +3,10 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# for uv usage from root installation
+mkdir -p ~/.local/share
+ln -s /root/.local/share/uv/ ~/.local/share/uv
+
 export EDITOR=vim
 
 export HISTTIMEFORMAT="%y-%m-%d %T "

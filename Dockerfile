@@ -50,6 +50,8 @@ RUN uv tool install wheel
 # modify file system for guest users
 RUN chmod 777 /root/
 RUN chmod 775 /root/.local
+RUN chmod 775 /root/.local/share
+RUN chmod -R 777 /root/.local/share/uv/
 
 RUN mkdir /source
 COPY ./.bash_aliases /source/

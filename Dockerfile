@@ -14,8 +14,26 @@ RUN apt-get -y upgrade
 # install basic dev tools
 RUN apt-get install -y build-essential make curl wget git direnv less nano openssh-client openssh-server sudo
 
-# install cloud dev tools
+# install python tools
+## install uv
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+#RUN . $HOME/.local/bin/env
+ENV PATH="$HOME/.local/bin:$PATH"
 
+## install python
+# 3.12 comes with 24.04
+RUN uv python install 3.10 3.11 3.13
+
+## install cli tools
+RUN uv tool install copier
+RUN uv tool install hatch
+RUN uv tool install poetry
+RUN uv tool install tox
+RUN uv tool install pre-commit
+RUN uv tool install ruff
+RUN uv tool install wheel
+
+# install cloud dev tools
 ## install kubernetes control
 #RUN apt-get install -y kubectl
 
@@ -29,31 +47,8 @@ RUN apt-get install -y build-essential make curl wget git direnv less nano opens
 #RUN chmod +x argocd-linux-amd64
 #RUN mv argocd-linux-amd64 /usr/local/bin/argocd
 
-# install pyenv
-RUN apt-get install -y libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev \
-    xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev llvm libncurses5-dev python3-openssl
-RUN curl -fsSL https://pyenv.run | bash
-ENV PYENV_ROOT="$HOME/.pyenv"
-ENV PATH="$PYENV_ROOT/bin:$PATH"
-RUN pyenv install 3.9
-RUN pyenv install 3.10
-RUN pyenv install 3.11
-# 3.12 comes with 24.04
-
-# install pipx & cli tools
-RUN apt-get install -y pipx
-ENV PATH "/root/.local/bin:$PATH"
-RUN pipx install copier
-RUN pipx install hatch
-#RUN pipx install poetry
-RUN pipx install pre-commit
-#RUN pipx install ruff
-RUN pipx install tox
-#RUN pipx install wheel
-
 # modify file system for guest users
 RUN chmod 777 /root/
-RUN chmod -R 777 /root/.pyenv
 RUN chmod 775 /root/.local
 
 RUN mkdir /source

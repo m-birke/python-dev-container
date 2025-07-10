@@ -3,11 +3,6 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# pyenv
-export PYENV_ROOT="/root/.pyenv"
-#command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - bash)"
-
 export EDITOR=vim
 
 export HISTTIMEFORMAT="%y-%m-%d %T "

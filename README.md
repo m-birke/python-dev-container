@@ -10,8 +10,8 @@ Ubuntu based.
 
 ## Installed Tools
 
-1. pyenv: 3.11
-1. pipx: copier, hatch, poetry, pre-commit, ruff, tox
+1. uv w/ various py versions
+1. CLIs: copier, hatch, poetry, pre-commit, ruff, tox
 
 ## Run
 
